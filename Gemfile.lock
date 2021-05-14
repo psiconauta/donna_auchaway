@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    awesome_print (1.9.2)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -47,7 +46,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  awesome_print
   net-http-persistent
   pry
   telegram-bot-ruby

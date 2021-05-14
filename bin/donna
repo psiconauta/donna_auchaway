@@ -25,5 +25,5 @@ begin
   Donna::Bot.new(c).run!
 rescue ArgumentError, Telegram::Bot::Exceptions::ResponseError => e
   # TODO, Logger?
-  ap e
+  pp e
 end

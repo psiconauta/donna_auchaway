@@ -1,18 +1,19 @@
 module Donna
   module API
     class Telegram
-      attr_accessor :event, :bot
+      attr_accessor :event, :bot, :log
 
-      def initialize(event:, bot:)
+      def initialize(event:, bot:, log:)
         @event = event
         @bot = bot
+        @log = log
       end
 
       def responder!
         case event
         when ::Telegram::Bot::Types::Message
-          puts "Received: #{event.text}"
-          pp event
+          log.debug "Mensaje: #{event.text}"
+          pp event if log.level == Logger::DEBUG
 
           mensaje = Mensaje.new(usuarie: event.from.first_name)
 
@@ -28,9 +29,8 @@ module Donna
           end
         when ::Telegram::Bot::Types::ChatMemberUpdated
         else
-          puts "Tipo no manejado"
-          puts "Received: #{event.class}"
-          pp event
+          log.error "Tipo no manejado: #{event.class}"
+          pp event if log.level == Logger::DEBUG
         end
       end
     end

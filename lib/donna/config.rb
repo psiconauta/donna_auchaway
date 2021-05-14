@@ -1,10 +1,14 @@
 # Centraliza toda la configuración de les bots y demás.
 module Donna
   class Config
-    attr_accessor :c
+    attr_accessor :c, :log
 
-    def initialize
-      @c = YAML::load(IO.read('config.yml'))
+    def initialize(entorno:, logger:)
+      @c = YAML::load(IO.read('config.yml'))[entorno]
+
+      # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
+      logger.level = Object.const_get "Logger::#{c['log_level']}"
+      @log = logger
     end
 
     def telegram_key

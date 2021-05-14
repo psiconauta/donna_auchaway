@@ -18,11 +18,10 @@ module Donna
     def run!
       # Esconder esto
       Telegram::Bot::Client.run(config.telegram['key']) do |bot|
-        # FIXME: Loguear más lindo.
-        puts 'Donna Auchaway andando en Telegram'
+        config.log.info 'Donna escuchando en Telegram'
 
         bot.listen do |event|
-          API::Telegram.new(event: event, bot: bot).responder!
+          API::Telegram.new(event: event, bot: bot, log: config.log).responder!
         end
       end
     end

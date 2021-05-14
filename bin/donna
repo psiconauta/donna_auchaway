@@ -1,21 +1,29 @@
 #!/usr/bin/env ruby
 
 # Cargar librerías y entornos.
-# TODO, Cargar entorno desde ENV.
 require 'bundler'
-Bundler.require(:default, :development)
+require 'yaml'
+entorno = ENV['DONNA_ENV'] || :development
+Bundler.require(:default, entorno)
 
 # Cargar punto de inicio
 require_relative '../lib/donna'
 
-key = ENV['TELEGRAM_API_KEY']
+c = Donna::Config.new
 
 # TODO, Cambiar esta inicialización para que funcione a la vez en discord y telegram.
 begin
-  raise ArgumentError.new('Falta configurar la API Key') if key.nil? || key.empty?
+  if c.telegram['key'].nil?
+    raise ArgumentError.new('Falta configurar la API Key')
+  else
+    Telegram::Bot.configure do |config|
+      config.adapter = :net_http_persistent
+    end
+  end
 
   # Hey! Listen!
-  Donna::Bot.new(telegram: { key: key }).run!
+  Donna::Bot.new(c).run!
 rescue ArgumentError, Telegram::Bot::Exceptions::ResponseError => e
-  ap e.message
+  # TODO, Logger?
+  ap e
 end

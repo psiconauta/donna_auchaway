@@ -1,24 +1,36 @@
 module Donna
   class API
-    attr_accessor :message, :bot
+    attr_accessor :event, :bot
 
-    def initialize(message:, bot:)
-      @message = message
+    def initialize(event:, bot:)
+      @event = event
       @bot = bot
     end
 
     def process!
-      puts "Received: #{message.text}"
+      case event
+      when Telegram::Bot::Types::Message
+        puts "Received: #{event.text}"
+        puts "Received: #{event.class}"
 
-      case message.text
-      when '/start'
-        bot.api.send_message chat_id: message.chat.id, text: "Hola #{message.from.first_name}"
-      when '/stop'
-        bot.api.send_message chat_id: message.chat.id, text: "Chau #{message.from.first_name}"
-      when '/about'
-        bot.api.send_message chat_id: message.chat.id, text: 'Soy Donna Auchaway. Mis pronombres son neutros (elle) y soy le cyborg de Auch!'
+        case event.text
+        when '/start'
+          bot.api.send_message chat_id: event.chat.id,
+            text: "Hola #{event.from.first_name}"
+        when '/stop'
+          bot.api.send_message chat_id: event.chat.id,
+            text: "Chau #{event.from.first_name}"
+        when '/about'
+          bot.api.send_message chat_id: event.chat.id,
+            text: 'Soy Donna Auchaway. Mis pronombres son neutros (elle) y soy le cyborg de Auch!'
+        else
+          bot.api.send_message chat_id: event.chat.id,
+            text: event.inspect
+        end
+      when Telegram::Bot::Types::ChatMemberUpdated
       else
-        bot.api.send_message chat_id: message.chat.id, text: message.inspect
+        puts "Tipo no manejado"
+        ap event
       end
     end
   end

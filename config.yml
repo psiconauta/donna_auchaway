@@ -1,28 +1,32 @@
 default: &default
   log_level: INFO
-  telegram:
-    about: Soy Donna Auchaway. Mis pronombres son neutros (elle) y soy le cyborg de Auch!
-    commands: |
-      start - Hola Donna!
-      about - Contame de vos
-      contame_de - Contame algo de...
-      pronombres - Mis pronombres son...
-      chats_privados - Mis preferencias sobre chats privados son...
-      stop - Chau Donna!
-    description: |
-      Hola, soy Donna. Mis pronombres son neutros (elle) y soy le cyborg de Auch!
 
-      Puedo recordar tus pronombres y preferencias sobre si te pueden escribir
-      otrxs miembrxs del grupo, así cualquiera puede preguntarme antes de
-      interactuar con vos. También podés preguntarme por quien quieras!
+telegram: &telegram_default
+  about: Soy Donna Auchaway. Mis pronombres son neutros (elle) y soy le cyborg de Auch!
+  adapter: net_http_persistent
+  commands: |
+    start - Hola Donna!
+    about - Contame de vos
+    contame_de - Contame algo de...
+    pronombres - Mis pronombres son...
+    chats_privados - Mis preferencias sobre chats privados son...
+    stop - Chau Donna!
+  description: |
+    Hola, soy Donna. Mis pronombres son neutros (elle) y soy le cyborg de Auch!
+
+    Puedo recordar tus pronombres y preferencias sobre si te pueden escribir
+    otrxs miembrxs del grupo, así cualquiera puede preguntarme antes de
+    interactuar con vos. También podés preguntarme por quien quieras!
 
 production:
   <<: *default
   telegram:
+    <<: *telegram_default
     group: auchbdsm
 
 development:
   <<: *default
   log_level: DEBUG
   telegram:
+    <<: *telegram_default
     group: donna_test

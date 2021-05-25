@@ -1,21 +1,9 @@
 #!/usr/bin/env ruby
 
-# Cargar librerías y entornos.
-require 'bundler'
-require 'yaml'
-require 'logger'
-
-entorno = ENV['DONNA_ENV'] || :development
-Bundler.require(:default, entorno)
-
 # Cargar punto de inicio.
-require_relative '../lib/donna'
+require_relative '../boot'
 
-# Loguear en STDOUT para que systemd lo capture.
-logger = Logger.new(STDOUT)
-c = Donna::Config.new(entorno: entorno, logger: logger)
-
-c.log.info "Donna despertando en modo #{entorno}"
+c = Donna::Config.instance
 
 # TODO, Cambiar esto para que funcione a la vez en discord y telegram.
 begin
@@ -23,7 +11,7 @@ begin
     raise ArgumentError.new('Falta configurar la API key de Telegram')
   else
     Telegram::Bot.configure do |config|
-      config.adapter = :net_http_persistent
+      config.adapter = c.telegram['adapter'].to_sym
     end
   end
 

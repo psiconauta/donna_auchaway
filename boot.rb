@@ -11,6 +11,7 @@ require_relative 'lib/donna'
 
 # Loguear en STDOUT para que systemd lo capture.
 logger = Logger.new(STDOUT)
-c = Donna::Config.new(entorno: entorno, logger: logger)
+config = Donna::Config.new(entorno: entorno, logger: logger)
 
-c.log.info "Donna despertando en modo #{entorno}"
+# Iniciar la conexión a la base de datos.
+ActiveRecord::Base.establish_connection config.db

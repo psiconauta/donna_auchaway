@@ -3,20 +3,21 @@
 # Cargar punto de inicio.
 require_relative '../boot'
 
-c = Donna::Config.instance
+config = Donna::Config.instance
 
 # TODO, Cambiar esto para que funcione a la vez en discord y telegram.
 begin
-  if c.telegram['key'].nil?
+  if config.telegram['key'].nil?
     raise ArgumentError.new('Falta configurar la API key de Telegram')
   else
-    Telegram::Bot.configure do |config|
-      config.adapter = c.telegram['adapter'].to_sym
+    Telegram::Bot.configure do |bot_config|
+      bot_config.adapter = config.telegram['adapter'].to_sym
     end
   end
 
   # Hey! Listen!
-  Donna::Bot.new(c).run!
+  config.log.info "Donna despertando en modo #{config.entorno}"
+  Donna::Bot.new(config).run!
 rescue ArgumentError, Telegram::Bot::Exceptions::ResponseError => e
-  c.log.error e
+  config.log.error e
 end

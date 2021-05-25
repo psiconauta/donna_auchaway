@@ -3,8 +3,8 @@
 # escuchar las consultas que van llegando. Cada API filtra los mensajes
 # relevantes y los redirige a Mensaje, que decide qué hacer independientemente
 # del servicio.
-require_relative 'api/telegram'
 require_relative 'mensaje'
+require_relative 'api/telegram'
 
 module Donna
   class Bot
@@ -24,6 +24,8 @@ module Donna
           API::Telegram.new(event: event, bot: bot, log: config.log).responder!
         end
       end
+    rescue Telegram::Bot::Exceptions::ResponseError => e
+      config.log.error e
     end
   end
 end

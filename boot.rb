@@ -13,5 +13,10 @@ require_relative 'lib/donna'
 logger = Logger.new(STDOUT)
 config = Donna::Config.new(entorno: entorno, logger: logger)
 
+# Configurar bot de telegram.
+Telegram::Bot.configure do |bot_config|
+  bot_config.adapter = config.telegram['adapter'].to_sym
+end
+
 # Iniciar la conexión a la base de datos.
 ActiveRecord::Base.establish_connection config.db

@@ -8,4 +8,24 @@ class Usuarie < ActiveRecord::Base
 
     save
   end
+
+  # Pasamos el contexto para devolver la información relevante a telegram o
+  # discord, según el caso.
+  def nombre(contexto = nil)
+    case contexto
+    when :telegram
+      telegram_data['first_name']
+    else
+      id
+    end
+  end
+
+  def username(contexto = nil)
+    case contexto
+    when :telegram
+      "@#{telegram_username}"
+    else
+      id
+    end
+  end
 end

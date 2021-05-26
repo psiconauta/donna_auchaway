@@ -1,7 +1,9 @@
 module Donna
   module API
     class Telegram
-      attr_accessor :event, :bot, :log
+      MENSAJE_REGEX = /(?<comando>\/\w+)@?(?<botname>\w+)?\s*(?<parametro>.*)/
+
+      attr_accessor :event, :bot, :log, :comando, :botname, :parametro
 
       def initialize(event:, bot:, log:)
         @event = event
@@ -10,28 +12,102 @@ module Donna
       end
 
       def responder!
+        usuarie = Usuarie.find_or_initialize_by telegram_id: event.from.id
+        usuarie.actualizar_desde_telegram! event.from
+
+        # Pasamos el contexto para poder desacoplar un poco Mensaje de la
+        # plataforma específica.
+        mensaje = Mensaje.new usuarie: usuarie, contexto: :telegram
+
+        log.debug "Usuarie #{usuarie.telegram_username} guardadx" if usuarie.persisted?
+        pp usuarie.telegram_data if log.level == Logger::DEBUG
+
         case event
         when ::Telegram::Bot::Types::Message
+          parsear_mensaje!
+          return unless mensaje_nuestro?
+
           log.debug "Mensaje: #{event.text}"
           pp event if log.level == Logger::DEBUG
 
-          mensaje = Mensaje.new(usuarie: event.from.first_name)
-
-          case event.text
+          case comando
           when '/start'
             bot.api.send_message chat_id: event.chat.id, text: mensaje.start
           when '/stop'
             bot.api.send_message chat_id: event.chat.id, text: mensaje.stop
+          when '/pronombres'
+            botones = mensaje.opciones_para_pronombres.map do |opcion|
+              ::Telegram::Bot::Types::InlineKeyboardButton.new(
+                text: opcion,
+                callback_data: "pronombres:#{opcion}"
+              )
+            end
+
+            teclado = ::Telegram::Bot::Types::InlineKeyboardMarkup.new(
+              inline_keyboard: botones
+            )
+
+            bot.api.send_message chat_id: event.chat.id, text: mensaje.pronombres,
+              reply_markup: teclado
+          when '/contame_de'
+            username = parametro.split('@').last
+
+            respuesta = if username == 'donna_auchaway_bot'
+              mensaje.about
+            else
+              alguien = Usuarie.find_by telegram_username: username
+
+              mensaje.contame_de(alguien)
+            end
+
+            bot.api.send_message chat_id: event.chat.id, text: respuesta
           when '/about'
             bot.api.send_message chat_id: event.chat.id, text: mensaje.about
           else
             bot.api.send_message chat_id: event.chat.id, text: mensaje.eco(event.text)
+          end
+        # Acá se manejan las respuestas de les usuaries.
+        when ::Telegram::Bot::Types::CallbackQuery
+          log.debug "Callback: #{event.data}"
+          pp event if log.level == Logger::DEBUG
+
+          dato, valor = event.data.split(':')
+
+          case dato
+          when 'pronombres'
+            bot.api.send_message chat_id: event.from.id, text: mensaje.respuesta_pronombres(valor)
+          else
+            log.error "Mensaje no manejado: #{dato}"
           end
         when ::Telegram::Bot::Types::ChatMemberUpdated
         else
           log.error "Tipo no manejado: #{event.class}"
           pp event if log.level == Logger::DEBUG
         end
+      end
+
+      # Donna necesita entender comandos sueltos ('comando'), o que incluyen su
+      # nombre ('botname'), y también cuando el comando pregunta por une
+      # usuarie o mande información ('parametro'):
+      #
+      #   /start@donna_auchaway_bot algo
+      #
+      def parsear_mensaje!
+        log.debug "API::Telegram.parsear_mensaje! - #{event.text}"
+
+        if (event.text && resultados = event.text.match(MENSAJE_REGEX))
+          @comando = resultados[:comando]
+          @botname = resultados[:botname]
+          @parametro = resultados[:parametro]
+        end
+      end
+
+      # Cuando Donna está en un grupo, los mensajes pueden venir con su @
+      # incluida.
+      def mensaje_nuestro?
+        log.debug "API::Telegram.mensaje_nuestro?"
+
+        botname == 'donna_auchaway_bot' || botname.nil?
       end
     end
   end

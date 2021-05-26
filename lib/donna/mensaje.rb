@@ -1,17 +1,60 @@
 module Donna
   class Mensaje
-    attr_accessor :usuarie
+    attr_accessor :usuarie, :contexto
 
-    def initialize(usuarie:)
+    def initialize(usuarie:, contexto:)
       @usuarie = usuarie
+      @contexto = contexto
     end
 
     def start
-      "Hola #{usuarie}"
+      respuesta = ["Hola #{usuarie.nombre(contexto)}!"]
+
+      # TODO, Incluir la información sobre mensajes directos.
+      if usuarie.pronombres
+        respuesta << "Me acuerdo que me dijiste:"
+        respuesta << "\"#{usuarie.pronombres}\" sobre pronombres."
+      end
+
+      respuesta.join "\n\n"
     end
 
     def stop
-      "Chau #{usuarie}"
+      "Chau #{usuarie}!"
+    end
+
+    def pronombres
+      [
+        "Decime cómo son tus pronombres y cuando alguien me pregunte por vos les digo.",
+        "Podés elegir una de estas opciones, o escribir lo que quieras (soon™)."
+      ].join "\n\n"
+    end
+
+    # TODO, Opción para "todos", "me da igual" o "quiero escribirlo".
+    def opciones_para_pronombres
+      [
+        'Ella',
+        'Elle',
+        'Él',
+        'Ella/elle/él'
+      ]
+    end
+
+    def respuesta_pronombres(valor)
+      usuarie.update pronombres: valor
+
+      "Perfecto! Cuando me pregunten por tus pronombres les voy a decir eso ☺️"
+    end
+
+    def contame_de(alguien)
+      if alguien
+        [
+          "En cuanto al uso de pronombres, esto es lo que me dijo #{alguien.username(contexto)}:",
+          "\"#{alguien.pronombres}\""
+        ].join "\n\n"
+      else
+        "Tenés que decirme el @! Así: /contame_de @donna_auchaway_bot"
+      end
     end
 
     def about

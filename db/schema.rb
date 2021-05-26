@@ -10,6 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 1) do
+
+  create_table "usuaries", force: :cascade do |t|
+    t.string "telegram_id"
+    t.string "telegram_username"
+    t.json "telegram_data"
+    t.string "pronombres"
+    t.string "privados"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["telegram_id"], name: "index_usuaries_on_telegram_id", unique: true
+    t.index ["telegram_username"], name: "index_usuaries_on_telegram_username"
+  end
 
 end

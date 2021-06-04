@@ -35,12 +35,12 @@ module Donna
           config.telegram['description'].strip,
           "Estos son los comandos para comunicarte conmigo:",
           config.telegram['commands'].strip,
-          "Podés escribir cualquier comando con una / adelante (por ejemplo" \
-          " /pronombres), o elegirlos del botoncito parecido a esto `[/]` que" \
-          " debería estar en el menú. Para preguntarme por alguien en particular" \
-          " con /contame_de, tenés que escribir el comando, seguido de su nombre" \
-          " de usuarie (su @), así:",
-          "/contame_de @NombreDeUsuarieInventado",
+          "Podés escribir cualquier comando (acordate de la <code>/</code> adelante)," \
+          " elegirlos desde acá, o elegirlos del botoncito parecido a esto" \
+          " <code>[/]</code> que debería estar en el menú. Para preguntarme por" \
+          " alguien en particular con /contame_de, tenés que escribir el comando," \
+          " seguido de su nombre de usuarie (su @), así:",
+          "<code>/contame_de @NombreDeUsuarieInventado</code>",
           "El nombre de usuarie lo podés ver en su perfil."
         ].join "\n\n"
       end
@@ -88,7 +88,7 @@ module Donna
     end
 
     def eco(mensaje)
-      "No entiendo \"#{mensaje}\". Acordate que los comandos van con una / adelante!"
+      "No entiendo \"#{mensaje}\". Acordate que los comandos van con una <code>/</code> adelante!"
     end
   end
 end

@@ -32,13 +32,19 @@ module Donna
           log.debug "Mensaje: #{event.text}"
           pp event if log.level == Logger::DEBUG
 
+          # Opciones default para todas las respuestas.
+          opciones = {
+            chat_id: event.chat.id,
+            parse_mode: 'HTML'
+          }
+
           case comando
           when '/start'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.start
+            bot.api.send_message opciones.merge(text: mensaje.start)
           when '/stop'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.stop
+            bot.api.send_message opciones.merge(text: mensaje.stop)
           when '/help'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.help
+            bot.api.send_message opciones.merge(text: mensaje.help)
           when '/pronombres'
             botones = []
             # Agrupamos las opciones de a 3.
@@ -69,11 +75,11 @@ module Donna
               mensaje.contame_de(alguien)
             end
 
-            bot.api.send_message chat_id: event.chat.id, text: respuesta
+            bot.api.send_message opciones.merge(text: respuesta)
           when '/about'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.about
+            bot.api.send_message opciones.merge(text: mensaje.about)
           else
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.eco(event.text)
+            bot.api.send_message opciones.merge(text: mensaje.eco(event.text))
           end
         # Acá se manejan las respuestas de les usuaries.
         when ::Telegram::Bot::Types::CallbackQuery

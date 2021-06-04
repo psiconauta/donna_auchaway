@@ -6,15 +6,16 @@ telegram: &telegram_default
   adapter: net_http_persistent
   commands: |
     start - Hola Donna!
-    about - Contame de vos
-    contame_de - Contame algo de...
-    pronombres - Mis pronombres son...
-    chats_privados - Mis preferencias sobre chats privados son...
     stop - Chau Donna!
-  description: |
+    help - Aiuda!
+    pronombres - Mis pronombres son...
+    contame_de - Contame algo de...
+    about - Contame de vos
+  description: >
     Hola, soy Donna. Mis pronombres son neutros (elle) y soy le cyborg de Auch!
 
-    Puedo recordar tus pronombres y preferencias sobre si te pueden escribir
+
+    Puedo recordar tus pronombres y preferencias sobre mensajes privados de
     otrxs miembrxs del grupo, así cualquiera puede preguntarme antes de
     interactuar con vos. También podés preguntarme por quien quieras!
 

@@ -37,6 +37,8 @@ module Donna
             bot.api.send_message chat_id: event.chat.id, text: mensaje.start
           when '/stop'
             bot.api.send_message chat_id: event.chat.id, text: mensaje.stop
+          when '/help'
+            bot.api.send_message chat_id: event.chat.id, text: mensaje.help
           when '/pronombres'
             botones = []
             # Agrupamos las opciones de a 3.

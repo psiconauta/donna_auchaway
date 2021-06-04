@@ -7,6 +7,10 @@ module Donna
       @contexto = contexto
     end
 
+    def config
+      Donna::Config.instance
+    end
+
     def start
       respuesta = ["Hola #{usuarie.nombre(contexto)}!"]
 
@@ -21,6 +25,25 @@ module Donna
 
     def stop
       "Chau #{usuarie.nombre(contexto)}!"
+    end
+
+    # TODO, Tal vez haya que ajustar el mensaje al contexto.
+    def help
+      case contexto
+      when :telegram
+        [
+          config.telegram['description'].strip,
+          "Estos son los comandos para comunicarte conmigo:",
+          config.telegram['commands'].strip,
+          "Podés escribir cualquier comando con una / adelante (por ejemplo" \
+          " /pronombres), o elegirlos del botoncito parecido a esto `[/]` que" \
+          " debería estar en el menú. Para preguntarme por alguien en particular" \
+          " con /contame_de, tenés que escribir el comando, seguido de su nombre" \
+          " de usuarie (su @), así:",
+          "/contame_de @NombreDeUsuarieInventado",
+          "El nombre de usuarie lo podés ver en su perfil."
+        ].join "\n\n"
+      end
     end
 
     def pronombres
@@ -56,7 +79,7 @@ module Donna
           "\"#{alguien.pronombres}\""
         ].join "\n\n"
       else
-        "Tenés que decirme el @! Así: /contame_de @#{Donna::Config.instance.botname(contexto)]}"
+        "Tenés que decirme el @! Así: /contame_de @#{config.botname(contexto)}"
       end
     end
 
@@ -65,7 +88,7 @@ module Donna
     end
 
     def eco(mensaje)
-      "No entiendo \"#{mensaje}\""
+      "No entiendo \"#{mensaje}\". Acordate que los comandos van con una / adelante!"
     end
   end
 end

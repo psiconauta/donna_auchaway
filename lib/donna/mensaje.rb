@@ -1,6 +1,6 @@
 module Donna
   class Mensaje
-    attr_accessor :usuarie, :contexto
+    attr_accessor :usuarie, :contexto, :config
 
     def initialize(usuarie:, contexto:)
       @usuarie = usuarie
@@ -53,7 +53,7 @@ module Donna
           "\"#{alguien.pronombres}\""
         ].join "\n\n"
       else
-        "Tenés que decirme el @! Así: /contame_de @donna_auchaway_bot"
+        "Tenés que decirme el @! Así: /contame_de @#{Donna::Config.instance.telegram['botname']}"
       end
     end
 

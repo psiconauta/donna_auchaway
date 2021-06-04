@@ -36,10 +36,10 @@ module Donna
           "Estos son los comandos para comunicarte conmigo:",
           config.telegram['commands'].strip,
           "Podés escribir cualquier comando (acordate de la <code>/</code> adelante)," \
-          " elegirlos desde acá, o elegirlos del botoncito parecido a esto" \
-          " <code>[/]</code> que debería estar en el menú. Para preguntarme por" \
-          " alguien en particular con /contame_de, tenés que escribir el comando," \
-          " seguido de su nombre de usuarie (su @), así:",
+          " elegirlos desde acá, o elegirlos del botoncito parecido a <code>[/]</code>" \
+          " que debería estar en el menú. Para preguntarme por alguien en particular" \
+          " con /contame_de, tenés que escribir el comando, seguido de su nombre de" \
+          " usuarie (su @), así:",
           "<code>/contame_de @NombreDeUsuarieInventado</code>",
           "El nombre de usuarie lo podés ver en su perfil."
         ].join "\n\n"

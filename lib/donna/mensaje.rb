@@ -34,7 +34,10 @@ module Donna
     def opciones_para_pronombres
       [
         'Ella',
+        'Ella/elle',
+        'Ella/él',
         'Elle',
+        'Elle/él',
         'Él',
         'Ella/elle/él'
       ]

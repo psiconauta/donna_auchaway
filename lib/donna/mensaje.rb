@@ -20,7 +20,7 @@ module Donna
     end
 
     def stop
-      "Chau #{usuarie}!"
+      "Chau #{usuarie.nombre(contexto)}!"
     end
 
     def pronombres

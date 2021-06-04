@@ -1,3 +1,5 @@
+# Acá se maneja lo específicamente relacionado con recibir y responder mensajes
+# de Telegram.
 module Donna
   module API
     class Telegram
@@ -30,11 +32,19 @@ module Donna
           log.debug "Mensaje: #{event.text}"
           pp event if log.level == Logger::DEBUG
 
+          # Opciones default para todas las respuestas.
+          opciones = {
+            chat_id: event.chat.id,
+            parse_mode: 'HTML'
+          }
+
           case comando
           when '/start'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.start
+            bot.api.send_message opciones.merge(text: mensaje.start)
           when '/stop'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.stop
+            bot.api.send_message opciones.merge(text: mensaje.stop)
+          when '/help'
+            bot.api.send_message opciones.merge(text: mensaje.help)
           when '/pronombres'
             botones = []
             # Agrupamos las opciones de a 3.
@@ -57,7 +67,7 @@ module Donna
           when '/contame_de'
             username = parametro.split('@').last
 
-            respuesta = if username == 'donna_auchaway_bot'
+            respuesta = if username == Donna::Config.instance.botname(:telegram)
               mensaje.about
             else
               alguien = Usuarie.find_by telegram_username: username
@@ -65,11 +75,11 @@ module Donna
               mensaje.contame_de(alguien)
             end
 
-            bot.api.send_message chat_id: event.chat.id, text: respuesta
+            bot.api.send_message opciones.merge(text: respuesta)
           when '/about'
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.about
+            bot.api.send_message opciones.merge(text: mensaje.about)
           else
-            bot.api.send_message chat_id: event.chat.id, text: mensaje.eco(event.text)
+            bot.api.send_message opciones.merge(text: mensaje.eco(event.text))
           end
         # Acá se manejan las respuestas de les usuaries.
         when ::Telegram::Bot::Types::CallbackQuery
@@ -112,7 +122,7 @@ module Donna
       def mensaje_nuestro?
         log.debug "API::Telegram.mensaje_nuestro?"
 
-        botname.nil? || botname == Donna::Config.instance.telegram['botname']
+        botname.nil? || botname == Donna::Config.instance.botname(:telegram)
       end
     end
   end

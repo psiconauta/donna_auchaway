@@ -19,21 +19,22 @@ module Donna
       ENV['DONNA_TELEGRAM_API_KEY']
     end
 
-    def telegram_botname
-      ENV['DONNA_TELEGRAM_BOTNAME']
-    end
-
     # Mergeamos la API key a la configuración pública.
     def telegram
-      c['telegram'].merge({
-        'key' => telegram_key,
-        'botname' => telegram_botname
-      })
+      c['telegram'].merge('key' => telegram_key)
     end
 
     # Devuelve la configuración de la DB en forma de método.
     def db
       c['db']
+    end
+
+    # Cada plataforma puede tener un botname diferente.
+    def botname(contexto)
+      case contexto
+      when :telegram
+        ENV['DONNA_TELEGRAM_BOTNAME']
+      end
     end
   end
 end

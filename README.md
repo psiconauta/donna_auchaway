@@ -12,5 +12,5 @@ Telegram) necesitás:
 
 1.  [Crear un bot](https://core.telegram.org/bots#6-botfather) en Telegram
 2.  Poner el nombre del bot en la variable de entorno `DONNA_TELEGRAM_BOTNAME`
-3.  Generar una API, que ponés en la variable de entorno `DONNA_TELEGRAM_API_KEY`.
+3.  Generar una "API Key" o "authorization token", que ponés en la variable de entorno `DONNA_TELEGRAM_API_KEY`.
 4.  Correr `bin/donna`

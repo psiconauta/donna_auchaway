@@ -36,11 +36,16 @@ module Donna
           when '/stop'
             bot.api.send_message chat_id: event.chat.id, text: mensaje.stop
           when '/pronombres'
-            botones = mensaje.opciones_para_pronombres.map do |opcion|
-              ::Telegram::Bot::Types::InlineKeyboardButton.new(
-                text: opcion,
-                callback_data: "pronombres:#{opcion}"
-              )
+            botones = []
+            # Agrupamos las opciones de a 3.
+            mensaje.opciones_para_pronombres.each_slice(3) do |grupo|
+              fila_de_botones = grupo.map do |opcion|
+                ::Telegram::Bot::Types::InlineKeyboardButton.new(
+                  text: opcion,
+                  callback_data: "pronombres:#{opcion}"
+                )
+              end
+              botones << fila_de_botones
             end
 
             teclado = ::Telegram::Bot::Types::InlineKeyboardMarkup.new(

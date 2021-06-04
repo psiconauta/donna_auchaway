@@ -1,3 +1,5 @@
+# Acá se maneja lo específicamente relacionado con recibir y responder mensajes
+# de Telegram.
 module Donna
   module API
     class Telegram
@@ -57,7 +59,7 @@ module Donna
           when '/contame_de'
             username = parametro.split('@').last
 
-            respuesta = if username == 'donna_auchaway_bot'
+            respuesta = if username == Donna::Config.instance.botname(:telegram)
               mensaje.about
             else
               alguien = Usuarie.find_by telegram_username: username
@@ -112,7 +114,7 @@ module Donna
       def mensaje_nuestro?
         log.debug "API::Telegram.mensaje_nuestro?"
 
-        botname.nil? || botname == Donna::Config.instance.telegram['botname']
+        botname.nil? || botname == Donna::Config.instance.botname(:telegram)
       end
     end
   end

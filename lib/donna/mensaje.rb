@@ -56,7 +56,7 @@ module Donna
           "\"#{alguien.pronombres}\""
         ].join "\n\n"
       else
-        "Tenés que decirme el @! Así: /contame_de @#{Donna::Config.instance.telegram['botname']}"
+        "Tenés que decirme el @! Así: /contame_de @#{Donna::Config.instance.botname(contexto)]}"
       end
     end
 

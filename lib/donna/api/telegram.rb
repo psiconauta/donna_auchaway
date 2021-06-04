@@ -107,7 +107,7 @@ module Donna
       def mensaje_nuestro?
         log.debug "API::Telegram.mensaje_nuestro?"
 
-        botname == 'donna_auchaway_bot' || botname.nil?
+        botname.nil? || botname == Donna::Config.instance.telegram['botname']
       end
     end
   end

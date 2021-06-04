@@ -88,7 +88,10 @@ module Donna
     end
 
     def eco(mensaje)
-      "No entiendo \"#{mensaje}\". Acordate que los comandos van con una <code>/</code> adelante!"
+      # Cuando mandan stickers o gifs llega un mensaje vacío.
+      mensaje_o_eso = mensaje ? "\"#{mensaje}\"" : "eso"
+
+      "No entiendo #{mensaje_o_eso}. Acordate que los comandos van con una <code>/</code> adelante!"
     end
   end
 end

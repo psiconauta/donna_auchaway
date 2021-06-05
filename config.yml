@@ -23,13 +23,10 @@ production:
   <<: *default
   telegram:
     <<: *telegram_default
-    group: auchbdsm
+    group: donna_test
 
 development:
   <<: *default
-  db:
-    adapter: sqlite3
-    database: db/development.sqlite3
   log_level: DEBUG
   telegram:
     <<: *telegram_default

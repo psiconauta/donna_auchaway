@@ -1,0 +1,22 @@
+# Donna Auchaway recuerda tus pronombres!
+[Unit]
+Description=Donna Auchaway (telegram/discord bot)
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+# Usuarie de sistema, preferentemente sin privilegios.
+User=<completar>
+# El path al directorio donde está Donna.
+WorkingDirectory=<completar>/current
+
+# Variables de entorno necesarias.
+Environment=DONNA_ENV=production
+Environment=DONNA_TELEGRAM_API_KEY=<completar>
+Environment=DONNA_TELEGRAM_BOTNAME=<completar>
+
+ExecStart=/bin/bash -lc '<completar>/current/bin/donna'
+
+[Install]
+WantedBy=multi-user.target

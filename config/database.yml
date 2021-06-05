@@ -1,0 +1,14 @@
+default: &default
+  adapter: sqlite3
+
+development:
+  <<: *default
+  database: db/development.sqlite3
+
+production:
+  <<: *default
+  database: donna_auchaway_production
+  adapter: postgresql
+  encoding: unicode
+  username: le usuarie
+  password: le password

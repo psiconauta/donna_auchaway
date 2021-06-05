@@ -3,7 +3,8 @@ require 'bundler'
 require 'yaml'
 require 'logger'
 
-entorno = ENV['DONNA_ENV'] || :development
+# Las tareas de la DB pasan el RAILS_ENV.
+entorno = ENV['DONNA_ENV'] || ENV['RAILS_ENV'] || :development
 Bundler.require(:default, entorno)
 
 # Cargar punto de inicio.

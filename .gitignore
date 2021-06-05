@@ -1,2 +1,5 @@
 # Ignorar las bases de datos
 db/*sqlite3
+
+# Ignorar los logs
+log/*

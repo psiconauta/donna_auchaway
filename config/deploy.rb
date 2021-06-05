@@ -22,3 +22,8 @@ set :format_options,
 # rbenv.
 set :rbenv_type, :user
 set :rbenv_ruby, File.read('.ruby-version').strip
+
+set :default_env, {
+  donna_db_username: ENV['DONNA_DB_USERNAME'],
+  donna_db_password: ENV['DONNA_DB_PASSWORD']
+}

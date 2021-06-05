@@ -7,4 +7,8 @@ development:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: donna_auchaway_production
+  adapter: postgresql
+  encoding: unicode
+  username: <%= ENV['DONNA_DB_USERNAME'] %>
+  password: <%= ENV['DONNA_DB_PASSWORD'] %>

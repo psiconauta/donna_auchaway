@@ -22,6 +22,3 @@ set :format_options,
 # rbenv.
 set :rbenv_type, :user
 set :rbenv_ruby, File.read('.ruby-version').strip
-
-append :linked_files,
-  'db/production.sqlite3'

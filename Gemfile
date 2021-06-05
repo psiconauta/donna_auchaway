@@ -9,11 +9,11 @@ gem 'activerecord', require: 'active_record'
 gem 'activesupport', require: 'active_support'
 gem 'rake'
 
-# Pasaremos a pg cuando haya producción.
-gem 'sqlite3'
+gem 'pg'
 
 group :development do
   gem 'pry'
+  gem 'sqlite3'
 end
 
 # Gemas sólo necesarias para el deploy con capistrano.

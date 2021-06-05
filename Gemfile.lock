@@ -62,6 +62,7 @@ GEM
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
+    pg (1.2.3)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -98,6 +99,7 @@ DEPENDENCIES
   capistrano-rbenv
   ed25519
   net-http-persistent
+  pg
   pry
   rake
   sqlite3

@@ -23,7 +23,7 @@ production:
   <<: *default
   telegram:
     <<: *telegram_default
-    group: auchbdsm
+    group: donna_test
 
 development:
   <<: *default

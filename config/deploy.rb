@@ -5,11 +5,8 @@ set :application, 'my_app_name'
 set :repo_url, 'git@github.com:psiconauta/donna_auchaway.git'
 set :branch, ENV['DONNA_DEPLOY_BRANCH'] || :main
 
-# Default value for :format is :airbrussh.
-
 # Valores default de capistrano.
 set :format, :airbrussh
-# set :format, :pretty
 set :log_level, :debug
 set :pty, false
 set :keep_releases, 5
@@ -25,3 +22,9 @@ set :rbenv_ruby, File.read('.ruby-version').strip
 
 append :linked_files,
   'config/database.yml'
+
+# Servicio.
+set :systemd_service_name, 'donna.service'
+
+# Reiniciar el servicio después de terminar el deploy.
+after 'deploy', 'deploy:restart'

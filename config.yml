@@ -27,9 +27,6 @@ production:
 
 development:
   <<: *default
-  db:
-    adapter: sqlite3
-    database: db/development.sqlite3
   log_level: DEBUG
   telegram:
     <<: *telegram_default

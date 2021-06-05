@@ -26,7 +26,7 @@ module Donna
 
     # Devuelve la configuración de la DB en forma de método.
     def db
-      c['db']
+      YAML::load(IO.read('config/database.yml'))[entorno]
     end
 
     # Cada plataforma puede tener un botname diferente.

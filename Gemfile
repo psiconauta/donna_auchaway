@@ -9,8 +9,12 @@ gem 'activerecord', require: 'active_record'
 gem 'activesupport', require: 'active_support'
 gem 'rake'
 
-gem 'pg'
+# Gemas sólo necesarias en producción.
+group :production do
+  gem 'pg'
+end
 
+# Gemas sólo necesarias en desarrollo.
 group :development do
   gem 'pry'
   gem 'sqlite3'

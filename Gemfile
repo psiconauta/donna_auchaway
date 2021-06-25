@@ -9,7 +9,10 @@ gem 'activerecord', require: 'active_record'
 gem 'activesupport', require: 'active_support'
 gem 'rake'
 
-# Gemas sólo necesarias en producción.
+# Gemas sólo necesarias en producción. Para evitarlas en desarrollo configurar
+# bundler así:
+#
+#   bundle config set --local without 'production'
 group :production do
   gem 'pg'
 end

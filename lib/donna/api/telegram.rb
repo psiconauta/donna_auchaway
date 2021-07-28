@@ -70,7 +70,7 @@ module Donna
             respuesta = if username == Donna::Config.instance.botname(:telegram)
               mensaje.about
             else
-              alguien = Usuarie.find_by telegram_username: username
+              alguien = Usuarie.where('lower(telegram_username) = ?', username.downcase).first
 
               mensaje.contame_de(alguien)
             end

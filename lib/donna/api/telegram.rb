@@ -15,7 +15,7 @@ module Donna
 
       def responder!
         usuarie = Usuarie.find_or_initialize_by(telegram_id: event.from.id).en_contexto(:telegram)
-        usuarie.actualizar! event.from
+        usuarie.actualizar_perfil! event.from
 
         mensaje = Mensaje.new usuarie: usuarie
 

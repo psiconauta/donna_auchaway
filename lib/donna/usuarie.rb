@@ -1,17 +1,27 @@
-# La gente que quiere que Donna recuerde sus preferencias.
+# Persona que quiere que Donna recuerde sus preferencias.
 class Usuarie < ActiveRecord::Base
   validates :telegram_id, uniqueness: true
 
-  def actualizar_desde_telegram!(datos)
-    self.telegram_username = datos.username
-    self.telegram_data = datos
+  # Pasamos el contexto para devolver la información relevante a Telegram o
+  # Discord, según el caso.
+  # TODO Separar en subclases que manejen el comportamiento relativo a cada
+  # plataforma.
+  attr_accessor :contexto
 
-    save
+  def actualizar!(datos)
+    case contexto
+    when :telegram
+      self.telegram_username = datos.username
+      self.telegram_data = datos
+
+      save
+    else
+      # Nada que hacer.
+      true
+    end
   end
 
-  # Pasamos el contexto para devolver la información relevante a telegram o
-  # discord, según el caso.
-  def nombre(contexto = nil)
+  def nombre
     case contexto
     when :telegram
       telegram_data['first_name']
@@ -20,12 +30,22 @@ class Usuarie < ActiveRecord::Base
     end
   end
 
-  def username(contexto = nil)
+  def username
     case contexto
     when :telegram
-      "@#{telegram_username}"
+      # El username es opcional en Telegram.
+      "@#{telegram_username}" if telegram_username.present?
     else
       id
     end
+  end
+
+  # Permite encadenar el cambio de contexto.
+  # TODO A futuro puede ser el método que devuelva una subclase según la
+  # TODO plataforma, para abstraer la llamada del resto del código.
+  def en_contexto(contexto)
+    self.contexto = contexto
+
+    return self
   end
 end

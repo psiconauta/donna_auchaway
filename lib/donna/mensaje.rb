@@ -2,9 +2,9 @@ module Donna
   class Mensaje
     attr_accessor :usuarie, :contexto, :config
 
-    def initialize(usuarie:, contexto:)
-      @usuarie = usuarie
-      @contexto = contexto
+    def initialize(usuarie:)
+      self.usuarie = usuarie
+      self.contexto = usuarie.contexto
     end
 
     def config
@@ -12,7 +12,7 @@ module Donna
     end
 
     def start
-      respuesta = ["Hola #{usuarie.nombre(contexto)}!"]
+      respuesta = ["Hola #{usuarie.nombre}!"]
 
       # TODO, Incluir la información sobre mensajes directos.
       if usuarie.pronombres
@@ -24,7 +24,7 @@ module Donna
     end
 
     def stop
-      "Chau #{usuarie.nombre(contexto)}!"
+      "Chau #{usuarie.nombre}!"
     end
 
     # TODO, Tal vez haya que ajustar el mensaje al contexto.
@@ -75,7 +75,7 @@ module Donna
     def contame_de(alguien)
       if alguien
         [
-          "En cuanto al uso de pronombres, esto es lo que me dijo #{alguien.username(contexto)}:",
+          "En cuanto al uso de pronombres, esto es lo que me dijo #{alguien.username}:",
           "\"#{alguien.pronombres}\""
         ].join "\n\n"
       else

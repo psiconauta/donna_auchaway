@@ -14,14 +14,12 @@ module Donna
       end
 
       def responder!
-        usuarie = Usuarie.find_or_initialize_by telegram_id: event.from.id
-        usuarie.actualizar_desde_telegram! event.from
+        usuarie = Usuarie.find_or_initialize_by(telegram_id: event.from.id).en_contexto(:telegram)
+        usuarie.actualizar_perfil! event.from
 
-        # Pasamos el contexto para poder desacoplar un poco Mensaje de la
-        # plataforma específica.
-        mensaje = Mensaje.new usuarie: usuarie, contexto: :telegram
+        mensaje = Mensaje.new usuarie: usuarie
 
-        log.debug "Usuarie #{usuarie.telegram_username} guardadx" if usuarie.persisted?
+        log.debug "Usuarie #{usuarie.username || usuarie.nombre} guardadx" if usuarie.persisted?
         pp usuarie.telegram_data if log.level == Logger::DEBUG
 
         case event

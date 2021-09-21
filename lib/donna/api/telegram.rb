@@ -69,6 +69,7 @@ module Donna
               mensaje.about
             else
               alguien = Usuarie.where('lower(telegram_username) = ?', username.downcase).first
+              alguien = alguien ? alguien.en_contexto(:telegram) : alguien
 
               mensaje.contame_de(alguien)
             end

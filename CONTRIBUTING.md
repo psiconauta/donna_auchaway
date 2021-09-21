@@ -49,7 +49,7 @@ alguien abre el chat por primera vez:
 ```
 Hola, soy Donna. Mis pronombres son neutros (elle) y soy le cyborg de Auch (@auchbdsm)!
 
-Puedo recordar tus pronombres y preferencias sobre mensajes privados de otrxs miembrxs del grupo, así cualquiera puede preguntarme antes de interactuar con vos. También podés preguntarme por quien quieras!
+Puedo recordar tus pronombres y preferencias sobre mensajes privados de otres integrantes del grupo, así cualquiera puede preguntarme antes de interactuar con vos. También podés preguntarme por quien quieras!
 
 Podés pedirme *aiuuuuda!!!* 😱 con /help y te explico mejor todo.
 ```

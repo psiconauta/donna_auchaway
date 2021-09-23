@@ -16,7 +16,7 @@ telegram: &telegram_default
 
 
     Puedo recordar tus pronombres y preferencias sobre mensajes privados de
-    otrxs miembrxs del grupo, así cualquiera puede preguntarme antes de
+    otres integrantes del grupo, así cualquiera puede preguntarme antes de
     interactuar con vos. También podés preguntarme por quien quieras!
 
 production:

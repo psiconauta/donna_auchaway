@@ -69,9 +69,8 @@ module Donna
               mensaje.about
             else
               alguien = Usuarie.where('lower(telegram_username) = ?', username.downcase).first
-              alguien = alguien ? alguien.en_contexto(:telegram) : alguien
 
-              mensaje.contame_de(alguien)
+              mensaje.contame_de alguien&.en_contexto(:telegram)
             end
 
             bot.api.send_message opciones.merge(text: respuesta)

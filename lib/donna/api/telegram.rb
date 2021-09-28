@@ -70,7 +70,7 @@ module Donna
             else
               alguien = Usuarie.where('lower(telegram_username) = ?', username.downcase).first
 
-              mensaje.contame_de(alguien)
+              mensaje.contame_de alguien&.en_contexto(:telegram)
             end
 
             bot.api.send_message opciones.merge(text: respuesta)
